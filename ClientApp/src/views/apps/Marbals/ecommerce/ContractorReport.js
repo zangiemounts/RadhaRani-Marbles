@@ -13,7 +13,8 @@ const ContactorReport = ({ success }) => {
     const [selectedArchitectName, setSelectedArchitectName] = useState(null)
     const ArchitechData = async () => {
         const sendData = {
-            CatgId: Number(65)
+            CatgId: Number(65),
+            GroupOrderdata: Number(localStorage.getItem("orgId"))
 
         }
         //console.log(sendData)

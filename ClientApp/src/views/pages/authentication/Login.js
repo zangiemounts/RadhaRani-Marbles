@@ -1,5 +1,5 @@
 // ** React Imports
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 // ** Custom Hooks
@@ -66,6 +66,9 @@ const Login = () => {
     const [formDataa, setFormDataa] = useState({
         phoneno: ''
     })
+
+    const [orgidmain, setorgidmain] = useState(407)
+    const [orgname, setorgname] = useState("Radharani Marbles")
     const onInputChange2 = (e) => {
         setFormDataa({ ...formDataa, ["phoneno"]: e })
     }
@@ -108,10 +111,48 @@ const Login = () => {
     /*CHeck OrgId = 422*/
 
 
+    useEffect(() => {
+        getOrgId()
+
+    }, [])
+
+    const getOrgId = async () => {
+        try {
+            const payload = {
+                ActualWebsite: window.location.hostname,
+                //ActualWebsite: "radharanimarvel.azurewebsites.net",
+                OrgName: "test"
+            }
+
+            const response = await fetch(`${process.env.REACT_APP_API_LINK}api/Radharani/Getorgid`,
+                {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                }
+            )
+
+            if (response.ok) {
+                const data = await response.json()
+                console.log(data)
+                setorgidmain(data.orgId)
+                setorgname(data.orgName)
+
+            }
+
+        } catch (error) {
+            console.error("GetOrgId API error:", error)
+            
+        }
+    }
+
     const onFormSubmit = async () => {
         try {
             const sendData = {
-                OrgId: Number(407),
+                OrgId: Number(orgidmain),
                 PhoneNo: `${formDataa.phoneno}`,
                 Password: formData.password,
                 VURL: window.location.href,
@@ -133,7 +174,7 @@ const Login = () => {
                         // console.log(data)
                         if (data.firstName !== null) {
                             localStorage.setItem("accessToken", "token")
-                            localStorage.setItem('orgId', 407)
+                            localStorage.setItem('orgId', orgidmain)
                             if (data.urole === 7) {
                                 localStorage.setItem('userIdA', data.userId)
                             } else {
@@ -142,6 +183,7 @@ const Login = () => {
                             localStorage.setItem('Maincatid', data.mainCatID)
                             localStorage.setItem('urole', data.urole)
                             localStorage.setItem('OrderNo', data.orderNo)
+                            localStorage.setItem('Orgname', orgname)
                             onSubmit()
                             toast(t => (
                                 <ToastContent t={t} name={`${data.firstName} ${data.lastName}`} />
@@ -190,8 +232,8 @@ const Login = () => {
         </Col>
         <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
           <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
-            <CardTitle tag='h2' className='fw-bold mb-1'>
-                          Welcome to Radharani Marbles! 👋
+                      <CardTitle tag='h2' className='fw-bold mb-1'>
+                          Welcome to {orgname}! 👋
             </CardTitle>
             <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
             

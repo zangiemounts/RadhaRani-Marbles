@@ -236,8 +236,8 @@ node_modules/
 ClientApp/node_modules/
 
 # Environment variables
-.env
-ClientApp/.env
+#.env
+#ClientApp/.env
 
 # Build output
 build/

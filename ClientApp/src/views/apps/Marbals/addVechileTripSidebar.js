@@ -114,7 +114,8 @@ const AddVechileTripSidebar = (props) => {
   const getContractorData = async () => {
     try {
       const sendData = {
-        CatgId: Number(65)
+          CatgId: Number(65),
+        GroupOrderdata: Number(localStorage.getItem("orgId"))
       }
       // console.log(sendData)
       await fetch(`${process.env.REACT_APP_API_LINK}api/Radharani/GetTruck`, {
@@ -144,7 +145,8 @@ const AddVechileTripSidebar = (props) => {
   const getVehicleData = async () => {
     try {
       const sendData = {
-        CatgId: Number(63)
+          CatgId: Number(63),
+          GroupOrderdata: Number(localStorage.getItem("orgId"))
       }
       // console.log(sendData)
       await fetch(`${process.env.REACT_APP_API_LINK}api/Radharani/GetTruck`, {
@@ -359,7 +361,7 @@ const AddVechileTripSidebar = (props) => {
                     className="me-1"
                     color="success"
                   >
-                    <PlusCircle size={20} /> Add Vechile
+                    <PlusCircle size={20} /> Add 
                   </Button>
                 ) : (
                   <Button color="success" disabled>

@@ -120,7 +120,7 @@ const AddVechileContractorSidebar = props => {
                            
                             <Col className='mt-2' sm='12'>
                                 {!IsLoading ? <Button type='submit' onClick={() => submitForm()} className='me-1' color='success'>
-                                    <PlusCircle size={20} /> Add Vechile
+                                    <PlusCircle size={20} /> Add 
                                 </Button> : <Button color='success' disabled>
                                     <Spinner size='sm' type='grow' />
                                     <span className='ms-50'>Please wait...</span>

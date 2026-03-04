@@ -102,8 +102,8 @@ const AddVechileSidebar = props => {
     const getContractorData = async () => {
         try {
             const sendData = {
-                CatgId: Number(65)
-
+                CatgId: Number(65),
+                GroupOrderdata: Number(localStorage.getItem("orgId"))
             }
             // console.log(sendData)
             await fetch(`${process.env.REACT_APP_API_LINK}api/Radharani/GetTruck`, {
@@ -203,7 +203,7 @@ const AddVechileSidebar = props => {
                            
                             <Col className='mt-2' sm='12'>
                                 {!IsLoading ? <Button type='submit' onClick={() => submitForm()} className='me-1' color='success'>
-                                    <PlusCircle size={20} /> Add Vechile
+                                    <PlusCircle size={20} /> Add 
                                 </Button> : <Button color='success' disabled>
                                     <Spinner size='sm' type='grow' />
                                     <span className='ms-50'>Please wait...</span>

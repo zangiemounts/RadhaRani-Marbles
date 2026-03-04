@@ -90,10 +90,7 @@ const VerticalMenuHeader = props => {
       <ul className='nav navbar-nav flex-row'>
         <li className='nav-item me-auto'>
           <NavLink to={user ? getHomeRouteForLoggedInUser(user.role) : '/'} className='navbar-brand'>
-            {/*<span className='brand-logo'>
-              <img src={logo} alt='logo' />
-              <img src={`https://mountsfileupload.azurewebsites.net/api/FileUpload/${Data.logoImage2}`} height='100' width='150' />
-            </span>*/}
+            
             <h2 className='brand-text mb-0'>{Show ? "Radharani" : Data.mainDesc}</h2>
           </NavLink>
         </li>

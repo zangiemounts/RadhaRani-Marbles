@@ -111,7 +111,8 @@ const Mesurement = () => {
     const getTruckData = async () => {
         try {
             const sendData = {
-                CatgId: Number(63)
+                CatgId: Number(63),
+                GroupOrderdata: Number(localStorage.getItem("orgId"))
 
             }
             //console.log(sendData)
