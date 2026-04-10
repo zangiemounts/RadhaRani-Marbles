@@ -1,4 +1,4 @@
-// ** React Imports
+﻿// ** React Imports
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { Row, Col, Card, Input, CardBody, Spinner, Table, Button } from 'reactstrap'
 import { Link, useNavigate } from 'react-router-dom'
@@ -124,25 +124,58 @@ const MesurementPrint = () => {
     return (
         <Fragment>
             {DataLoad && UserDataLoad ? < div className='invoice-print p-3' style={{ background: "white" }}>
-                <div className='d-flex justify-content-between flex-md-row flex-column pb-2'>
-                    <div>
-                        <div className='d-flex mb-1'>
 
-                            <h1 className='text-primary fw-bold ms-1'>Measurement</h1>
-                        </div>
-                        {/*<p className='mb-25'>Office 149, 450 South Brand Brooklyn</p>
-                        <p className='mb-25'>San Diego County, CA 91905, USA</p>
-                        <p className='mb-0'>+1 (123) 456 7891, +44 (876) 543 2198</p>*/}
+                <div className='d-flex justify-content-between flex-md-row flex-column pb-2'>
+                    {/* Centered Om Symbol + Title at the very top */}
+                    <div className='d-flex flex-column align-items-center mb-3'>
+                        <svg width="70" height="70" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="#8B2500">
+                                {Array.from({ length: 12 }).map((_, i) => {
+                                    const angle = ((i * 30) * Math.PI) / 180
+                                    const cx = 50 + (38 * Math.cos(angle))
+                                    const cy = 50 + (38 * Math.sin(angle))
+                                    return (
+                                        <ellipse
+                                            key={i}
+                                            cx={cx}
+                                            cy={cy}
+                                            rx="8"
+                                            ry="5"
+                                            transform={`rotate(${i * 30}, ${cx}, ${cy})`}
+                                        />
+                                    )
+                                })}
+                                <circle cx="50" cy="50" r="26" fill="white" stroke="#8B2500" strokeWidth="2" />
+                                <text
+                                    x="50"
+                                    y="62"
+                                    textAnchor="middle"
+                                    fontSize="28"
+                                    fontFamily="serif"
+                                    fill="#8B2500"
+                                    fontWeight="bold"
+                                >
+                                    ॐ
+                                </text>
+                            </g>
+                        </svg>
+                        <h1 className='text-primary fw-bold mt-1'>Measurement</h1>
                     </div>
-                    <div className='mt-md-0 mt-2'>
-                        <h4 className='fw-bold text-end mb-1'>Measurement No. #M{`${userdata?.orderNo}`}</h4>
-                        <div className='invoice-date-wrapper mb-50'>
-                            <span className='invoice-date-title'>Date Issued:</span>
-                            <span className='fw-bold'> {formattedDate}</span>
-                        </div>
-                        <div className='d-flex align-items-center'>
-                            <span className='invoice-date-title'>Truck/TempoNo:</span>
-                            <span className='fw-bold'>{userdata.truckNumber?.catgDesc}</span>
+
+                    {/* Measurement No. on the right */}
+                    <div className='d-flex justify-content-end mb-2'>
+                        <div>
+                            <h4 className='fw-bold text-end mb-1'>Measurement No. #M{`${userdata?.orderNo}`}</h4>
+                            <div className='invoice-date-wrapper mb-50'>
+                                <span className='invoice-date-title'>Date Issued:</span>
+                                <span className='fw-bold'> {formattedDate}</span>
+                            </div>
+                            {userdata.truckNumber?.catgDes && (
+                            <div className='d-flex align-items-center'>
+                                <span className='invoice-date-title'>Truck/TempoNo:</span>
+                                <span className='fw-bold'>{userdata.truckNumber?.catgDesc}</span>
+                            </div>
+                            )}
                         </div>
                     </div>
                 </div>

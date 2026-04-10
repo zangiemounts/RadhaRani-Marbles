@@ -1,4 +1,4 @@
-// ** React Imports
+﻿// ** React Imports
 import { Fragment, useEffect, useState } from 'react'
 import { Row, Col, Table } from 'reactstrap'
 
@@ -16,7 +16,7 @@ const API_BASE = process.env.REACT_APP_API_LINK
 
 // ** Helpers
 const formatDate = (dateStr) => dateStr?.slice(0, 10) ?? ''
-const safeFixed = (val, digits = 2) => (val !== null ? Number(val).toFixed(digits) : '�')
+const safeFixed = (val, digits = 2) => (val !== null ? Number(val).toFixed(digits) : '—')
 
 const fetchJson = async (endpoint, body) => {
     const res = await fetch(`${API_BASE}${endpoint}`, {
@@ -29,31 +29,89 @@ const fetchJson = async (endpoint, body) => {
 }
 
 // ** Sub-components
+const OmSymbol = () => (
+    <svg width="70" height="70" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#8B2500">
+            {Array.from({ length: 12 }).map((_, i) => {
+                const angle = ((i * 30) * Math.PI) / 180
+                const cx = 50 + (38 * Math.cos(angle))
+                const cy = 50 + (38 * Math.sin(angle))
+                return (
+                    <ellipse
+                        key={i}
+                        cx={cx}
+                        cy={cy}
+                        rx="8"
+                        ry="5"
+                        transform={`rotate(${i * 30}, ${cx}, ${cy})`}
+                    />
+                )
+            })}
+            <circle cx="50" cy="50" r="26" fill="white" stroke="#8B2500" strokeWidth="2" />
+            <text
+                x="50"
+                y="62"
+                textAnchor="middle"
+                fontSize="28"
+                fontFamily="serif"
+                fill="#8B2500"
+                fontWeight="bold"
+            >
+                ॐ
+            </text>
+        </g>
+    </svg>
+)
+
 const CompanyHeader = ({ orderNo, createdOn, orgData }) => {
     const address = [orgData?.orgAddress, orgData?.orgCity, orgData?.orgState, orgData?.orgCountry]
         .filter(Boolean).join(', ')
 
     return (
-        <div className='d-flex justify-content-between flex-md-row flex-column pb-2'>
-            <div>
-                <div className='d-flex mb-1'>
-                    <img src={img2} height='80' width='80' alt='Company Logo' />
-                    <h3 className='text-primary fw-bold ms-1 mt-2'>{COMPANY_NAME}</h3>
+        <>
+            {/* Centered Om + Company Name at top */}
+            <div style={{ position: 'relative', textAlign: 'center', marginBottom: '20px' }}>
+
+                {/* Logo top-left */}
+                <img
+                    src={img2}
+                    height='60'
+                    width='60'
+                    alt='Company Logo'
+                    style={{ position: 'absolute', top: 0, left: 0 }}
+                />
+
+                {/* Center content */}
+                <div>
+                    <OmSymbol />
+                    <h3 className='text-primary fw-bold mt-1 text-center'>
+                        {COMPANY_NAME}
+                    </h3>
                 </div>
-                <b>
-                    {address && <p className='mb-25'>{address}</p>}
-                    <p className='mb-25'>E-Mail: <span style={{ color: 'blue' }}>{orgData?.orgEmail}</span></p>
-                    <p className='card-text mb-0'>GST NO: <span style={{ color: 'blue' }}>{orgData?.orgFax1}</span></p>
-                </b>
+
             </div>
-            <div className='mt-md-0 mt-2'>
-                <h4 className='fw-bold text-end mb-1'>Estimation #E{orderNo ?? 0}</h4>
-                <div className='invoice-date-wrapper mb-50'>
-                    <span className='invoice-date-title'>Date Issued:</span>
-                    <span className='fw-bold'> {formatDate(createdOn)}</span>
+
+            {/* Company details + Estimation No */}
+            <div className='d-flex justify-content-between flex-md-row flex-column pb-2'>
+                <div>
+                    {/*<div className='d-flex mb-1'>*/}
+                    {/*    <img src={img2} height='80' width='80' alt='Company Logo' />*/}
+                    {/*</div>*/}
+                    <b>
+                        {address && <p className='mb-25'>{address}</p>}
+                        {orgData?.orgEmail && (<p className='mb-25'>E-Mail: <span style={{ color: 'blue' }}>{orgData?.orgEmail}</span></p>)}
+                        {orgData?.orgFax1 && (<p className='card-text mb-0'>GST NO: <span style={{ color: 'blue' }}>{orgData?.orgFax1}</span></p>)}
+                    </b>
+                </div>
+                <div className='mt-md-0 mt-2'>
+                    <h4 className='fw-bold text-end mb-1'>Estimation #E{orderNo ?? 0}</h4>
+                    <div className='invoice-date-wrapper mb-50'>
+                        <span className='invoice-date-title'>Date Issued:</span>
+                        <span className='fw-bold'> {formatDate(createdOn)}</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
@@ -61,9 +119,23 @@ const CustomerInfo = ({ user }) => (
     <Row className='pb-2'>
         <Col sm='6'>
             <b>
-                <p className='mb-25'>Name: {user?.firstName} {user?.lastName}</p>
-                <p className='mb-25'>Phone No: {user?.phoneNo ?? '9876543210'}</p>
-                <p className='mb-25'>Address: {[user?.address1, user?.address2, user?.pincode].filter(Boolean).join(' ')}</p>
+                {(user?.firstName || user?.lastName) && (
+                    <p className='mb-25'>
+                        Name: {[user?.firstName, user?.lastName].filter(Boolean).join(' ')}
+                    </p>
+                )}
+
+                {user?.phoneNo && (
+                    <p className='mb-25'>
+                        Phone No: {user.phoneNo}
+                    </p>
+                )}
+
+                {[user?.address1, user?.address2, user?.pincode].filter(Boolean).length > 0 && (
+                    <p className='mb-25'>
+                        Address: {[user?.address1, user?.address2, user?.pincode].filter(Boolean).join(' ')}
+                    </p>
+                )}
             </b>
         </Col>
     </Row>
@@ -125,7 +197,7 @@ const TotalsPanel = ({ totalTax, bill }) => (
                 <div className='invoice-total-item'>
                     <p className='invoice-total-title'>Subtotal:</p>
                     <p className='invoice-total-amount'>
-                        {bill?.payableAmount !== null ? Math.round(bill.payableAmount) : '�'}
+                        {bill?.payableAmount !== null ? Math.round(bill.payableAmount) : '—'}
                     </p>
                 </div>
             </div>
