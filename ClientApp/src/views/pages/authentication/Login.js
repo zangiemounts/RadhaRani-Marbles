@@ -119,8 +119,8 @@ const Login = () => {
     const getOrgId = async () => {
         try {
             const payload = {
-                //ActualWebsite: window.location.hostname,
-                ActualWebsite: "radharanimarvel.azurewebsites.net",
+                ActualWebsite: window.location.hostname,
+                //ActualWebsite: "radharanimarvel.azurewebsites.net",
                 OrgName: "test"
             }
 

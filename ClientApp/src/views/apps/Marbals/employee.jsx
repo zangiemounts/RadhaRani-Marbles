@@ -165,8 +165,8 @@ const Employee = () => {
     }
   }
 
-  const filteredData = currentitem.filter(
-        (item) => (item.userdata !== null ? item.userdata.firstName.toLowerCase().includes(onSearchText.toLowerCase()) || String(item.phnumber).toLowerCase().includes(onSearchText.toLowerCase()) : null)
+    const filteredData = currentitem.filter(
+        (item) => (item.userdata !== null ? item.userdata.firstName.toLowerCase().includes(onSearchText.toLowerCase()) || String(item.userdata.phoneNo).toLowerCase().includes(onSearchText.toLowerCase()) : null)
     )
 
   const paginatedData = filteredData.slice(
@@ -342,7 +342,7 @@ const Employee = () => {
                   type='text'
                   value={onSearchText}
                   onChange={e => setSearchText(e.target.value)}
-                  placeholder='Search Employee'
+                  placeholder='Search by name, phone'
                 />
               </div>
             </Col>

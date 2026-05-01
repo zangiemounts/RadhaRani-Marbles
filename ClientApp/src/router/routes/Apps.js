@@ -29,11 +29,8 @@ import MesurementView from "../../views/apps/Marbals/mesurementView"
 import MesurementPrint from "../../views/apps/Marbals/mesurementPrint"
 import Images from "../../views/apps/Marbals/images/images"
 import Architect from "../../views/apps/Marbals/Architect"
-import MarbelQRDownload from "../../views/apps/Marbals/marbelQRDownload"
 import VehicleContractor from "../../views/apps/Marbals/vehicleContractor"
 import VehicleName from "../../views/apps/Marbals/vehicleName"
-import MarbelQRMultipleDownload from "../../views/apps/Marbals/marbelQRMultipleDownload"
-import MarbelQRBlankDownload from "../../views/apps/Marbals/marbelQRBlankDownload"
 import SupportTicket from "../../views/apps/Marbals/supportTicket"
 
 const InvoiceAdd = lazy(() => import("../../views/apps/invoice/add"))
