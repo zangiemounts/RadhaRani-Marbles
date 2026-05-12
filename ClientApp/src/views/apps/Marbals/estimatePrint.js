@@ -1,4 +1,5 @@
-﻿// ** React Imports
+﻿/* eslint-disable multiline-ternary */
+// ** React Imports
 import { Fragment, useEffect, useState } from 'react'
 import { Row, Col, Table } from 'reactstrap'
 
@@ -144,7 +145,7 @@ const CustomerInfo = ({ user }) => (
 const ItemRow = ({ detail, index }) => (
     <tr>
         <td className='py-1'><strong>{index + 1}</strong></td>
-        <td className='py-1 ps-4'>
+        <td className='py-1 ps-4' style={{ whiteSpace: 'normal', wordBreak: 'break-word', overflowWrap: 'break-word' }}>
             <p className='fw-semibold mb-25'>{detail.product?.productName}</p>
         </td>
         <td className='py-1 ps-2'>
@@ -256,16 +257,24 @@ const EstimatePrint = () => {
 
                 <CustomerInfo user={userData?.user} />
 
-                <Table className='mt-2 mb-0' responsive>
+                <Table className='mt-2 mb-0' responsive style={{ tableLayout: 'fixed', width: '100%' }}>
                     <thead>
                         <tr>
-                            {['S.No.', 'Particular', 'Quantity', 'Rate', 'Tax', 'Amount', ''].map((h, i) => (
-                                <th key={i} className='py-1'>{h}</th>
-                            ))}
+                            <th className='py-1' style={{ width: '5%' }}>S.No.</th>
+                            <th className='py-1' style={{ width: '30%' }}>Particular</th>
+                            <th className='py-1' style={{ width: '15%' }}>Quantity</th>
+                            <th className='py-1' style={{ width: '15%' }}>Rate</th>
+                            <th className='py-1' style={{ width: '15%' }}>Tax</th>
+                            <th className='py-1' style={{ width: '15%' }}>Amount</th>
+                            <th className='py-1' style={{ width: '5%' }}></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {itemData.length > 0 ? itemData.map((detail, index) => <ItemRow key={detail.productDetailsId ?? index} detail={detail} index={index} />) : <tr><td colSpan={7}><h2 className='text-center py-3'>No Data Found</h2></td></tr>
+                        {itemData.length > 0
+                            ? itemData.map((detail, index) => (
+                                <ItemRow key={detail.productDetailsId ?? index} detail={detail} index={index} />
+                            ))
+                            : <tr><td colSpan={7}><h2 className='text-center py-3'>No Data Found</h2></td></tr>
                         }
                     </tbody>
                 </Table>
